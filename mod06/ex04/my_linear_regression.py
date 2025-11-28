@@ -40,6 +40,17 @@ class MyLinearRegression():
 		m = y.shape[0]
 		return float((1/(m*2)) * np.sum(error))
 
+	def mse_(self, y, y_hat):
+		if not isinstance(y, np.ndarray) or not isinstance(y_hat, np.ndarray):
+			return None
+		if y.ndim != 2 or y_hat.ndim != 2:
+			return None
+		if y.shape[1] != 1 or y_hat.shape[1] != 1 or y.shape != y_hat.shape:
+			return None
+
+		m = y.shape[0]
+		error = y_hat - y
+		return float((1 / m) * np.sum(error ** 2))
 
 	def fit_(self, x, y):
 		if not isinstance(x, np.ndarray):
