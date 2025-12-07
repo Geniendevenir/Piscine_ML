@@ -44,3 +44,4 @@ print(repr(mylr.loss_elem_(Y, y_hat)))
 print(repr(mylr.loss_(Y, y_hat)))
 # Output:
 #0.0732..
+
