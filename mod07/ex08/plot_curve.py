@@ -17,16 +17,17 @@ y = np.array([[ 1.39270298],
 
 # Build the model:
 x_ = add_polynomial_features(x, 3)
-print(x_)
-my_lr = MyLR(np.ones(4).reshape(-1,1))
+my_lr = MyLR(np.ones(4).reshape(-1,1), alpha=0.001, max_iter=10000000)
 my_lr.fit_(x_, y)
 
 # Plot:
 ## To get a smooth curve, we need a lot of data points
-""" continuous_x = np.arange(1,10.01, 0.01).reshape(-1,1)
-print(continuous_x.shape)
+continuous_x = np.arange(1,10.01, 0.01).reshape(-1,1)
+
 x_ = add_polynomial_features(continuous_x, 3)
-y_hat = my_lr.predict_(continuous_x)
+
+y_hat = my_lr.predict_(x_)
+
 plt.scatter(x,y)
 plt.plot(continuous_x, y_hat, color='orange')
-plt.show() """
+plt.show()

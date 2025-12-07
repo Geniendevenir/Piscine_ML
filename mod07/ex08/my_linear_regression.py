@@ -3,10 +3,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 class MyLinearRegression():
-	def __init__(self, thetas, alpha=0.001, max_iter=1000):
+	def __init__(self, thetas, alpha=0.001, max_iter=1000, normalize=True):
 		self.alpha = alpha
 		self.max_iter = max_iter
 		self.thetas = thetas
+		self.normalize = normalize
+		self.x_min = None
+		self.x_max = None
 
 	def minmax(self, x):
 		if not isinstance(x, np.ndarray):
@@ -22,8 +25,14 @@ class MyLinearRegression():
 		if x.size <= 0 or x.ndim != 2:
 			return None
 	
+		# Apply same normalization as during training if normalize is True
+		if self.normalize and self.x_min is not None and self.x_max is not None:
+			x_normalized = (x - self.x_min) / (self.x_max - self.x_min)
+		else:
+			x_normalized = x
+		
 		m = x.shape[0]
-		X_Prime = np.hstack((np.ones((m, 1)), x))
+		X_Prime = np.hstack((np.ones((m, 1)), x_normalized))
 		y_hat = X_Prime @ self.thetas
 		return y_hat
 
@@ -84,11 +93,20 @@ class MyLinearRegression():
 			self.thetas = np.array(self.thetas).reshape(-1, 1)
 		
 		self.thetas = self.thetas.astype(float)
+		
+		# Store normalization parameters and normalize input if normalize is True
+		if self.normalize:
+			self.x_min = x.min(axis=0, keepdims=True)
+			self.x_max = x.max(axis=0, keepdims=True)
+			x_normalized = (x - self.x_min) / (self.x_max - self.x_min)
+		else:
+			x_normalized = x
+
 		for _ in range(self.max_iter):
 			m = y.shape[0]
 
-			X_Prime = np.hstack((np.ones((m, 1)), x))
-			y_hat = self.predict_(x)
+			X_Prime = np.hstack((np.ones((m, 1)), x_normalized))
+			y_hat = X_Prime @ self.thetas
 			error = y_hat - y
 
 			gradient = (1 / m) * (X_Prime.T @ error)
