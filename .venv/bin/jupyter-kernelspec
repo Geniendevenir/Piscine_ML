@@ -1,4 +1,4 @@
-#!/home/allan/Project/Piscine_ML/.venv/bin/python3
+#!/home/allan/Project/Piscine_ML/.venv/bin/python
 # -*- coding: utf-8 -*-
 import sys
 from jupyter_client.kernelspecapp import KernelSpecApp
