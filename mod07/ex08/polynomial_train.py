@@ -103,3 +103,5 @@ plt.title('Polynomial Models (Degree 1-6) vs Data')
 plt.legend()
 plt.grid(alpha=0.3)
 plt.show()
+
+print(y_hat3_smooth)
